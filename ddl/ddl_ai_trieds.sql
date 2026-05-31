@@ -10,6 +10,8 @@ CREATE TABLE razonapro.ai_trieds (
     finished_at         TIMESTAMP,
     attempt_timestamp   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description         VARCHAR(200),
+    competence_id       VARCHAR(6),
+    theta               NUMERIC(5,3) DEFAULT 0.0,
     CONSTRAINT PK_AI_TRIEDS                    PRIMARY KEY (program_id, student_id, ai_tried_id),
     CONSTRAINT FK_AI_TRIEDS_STUDENTS           FOREIGN KEY (student_id, program_id)
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,

@@ -22,6 +22,9 @@ CREATE SCHEMA razonapro;
 \i ddl/ddl_students_responses.sql
 \i ddl/ddl_ai_trieds.sql
 \i ddl/ddl_ai_tried_responses.sql
+\i ddl/ddl_ai_questions.sql          -- NUEVO (depende de ai_trieds)
+\i ddl/ddl_notifications.sql         -- NUEVO (independiente)
+\i ddl/ddl_question_doubts.sql
 \i ddl/ddl_rankings_students.sql     -- incluye seq_ranking_student_id
 \i ddl/ddl_tokens.sql
 
