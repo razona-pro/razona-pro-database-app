@@ -1,11 +1,3 @@
--- ─────────────────────────────────────────────────────────────────
--- Restringe UPDATE y bloquea DELETE en students_responses:
---   • DELETE nunca permitido
---   • UPDATE solo si el intento está IN_PROGRESS
---   • UPDATE solo puede cambiar option_id y answered_at
---     (is_correct lo actualiza la lógica de negocio de la app
---      antes de persistir, NO se valida aquí como campo inmutable)
--- ─────────────────────────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION razonapro.fn_restrict_students_responses()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -17,7 +9,6 @@ BEGIN
             'Registro: student_response_id = %', OLD.student_response_id;
 
     ELSIF TG_OP = 'UPDATE' THEN
-
         SELECT status INTO v_status
           FROM razonapro.trieds
          WHERE competence_id = OLD.competence_id
@@ -47,9 +38,6 @@ BEGIN
 
         RETURN NEW;
     END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_restrict_students_responses
-    BEFORE UPDATE OR DELETE ON razonapro.students_responses
-    FOR EACH ROW EXECUTE FUNCTION razonapro.fn_restrict_students_responses();
