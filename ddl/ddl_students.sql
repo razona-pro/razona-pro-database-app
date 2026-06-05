@@ -25,9 +25,9 @@ CREATE TABLE razonapro.students (
     CONSTRAINT CK_STUDENTS_IS_ACTIVE           CHECK (is_active IN ('Y','N')),
     CONSTRAINT CK_STUDENTS_EMAIL_VERIFIED      CHECK (email_verified IN ('Y','N')),
     CONSTRAINT CK_STUDENTS_IDENTITY_VERIFIED   CHECK (identity_verified IN ('Y','N')),
-    CONSTRAINT CK_STUDENTS_EMAIL_FMT           CHECK (email = UPPER(email) AND email NOT LIKE '%..%'
-                                                   AND email ~ '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'),
-    CONSTRAINT CK_STUDENTS_EMAIL_DOMAIN        CHECK (email LIKE '%@UFPSO.EDU.CO'),
+    CONSTRAINT CK_STUDENTS_EMAIL_FMT           CHECK (email = LOWER(email) AND email NOT LIKE '%..%'
+                                                   AND email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'),
+    CONSTRAINT CK_STUDENTS_EMAIL_DOMAIN        CHECK (email LIKE '%@ufpso.edu.co'),
     CONSTRAINT CK_STUDENTS_PHONE_FMT           CHECK (phone ~ '^\+[1-9][0-9]{10,13}$'),
     CONSTRAINT CK_STUDENTS_PWD_LEN             CHECK (LENGTH(password_hash) >= 60),
     CONSTRAINT CK_STUDENTS_FIRST_NAME_NOTEMPTY CHECK (LENGTH(TRIM(first_name)) > 0),

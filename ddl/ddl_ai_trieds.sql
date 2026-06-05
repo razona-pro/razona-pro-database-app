@@ -12,10 +12,12 @@ CREATE TABLE razonapro.ai_trieds (
     description         VARCHAR(200),
     competence_id       VARCHAR(6),
     theta               NUMERIC(5,3) DEFAULT 0.0,
+    fraud_attempts      INTEGER      NOT NULL DEFAULT 0,
     CONSTRAINT PK_AI_TRIEDS                    PRIMARY KEY (program_id, student_id, ai_tried_id),
     CONSTRAINT FK_AI_TRIEDS_STUDENTS           FOREIGN KEY (student_id, program_id)
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT CK_AI_TRIEDS_STATUS             CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED')),
+    CONSTRAINT CK_AI_TRIEDS_STATUS             CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','ANULADO')),
+    CONSTRAINT CK_AI_TRIEDS_FRAUD_ATTEMPTS     CHECK (fraud_attempts >= 0),
     CONSTRAINT CK_AI_TRIEDS_SCORE              CHECK (score IS NULL OR (score >= 0 AND score <= 100)),
     CONSTRAINT CK_AI_TRIEDS_TOTAL_QUESTIONS    CHECK (total_questions > 0),
     CONSTRAINT CK_AI_TRIEDS_CORRECT_ANSWERS    CHECK (correct_answers IS NULL OR correct_answers >= 0),

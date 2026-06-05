@@ -37,15 +37,20 @@ BEGIN
         END CASE;
 
         IF v_ranking.source_filter IN ('ALL','TRIEDS') THEN
-            SELECT COALESCE(SUM(score), 0), COUNT(*)
+            -- Solo cuentan para el ranking los intentos de tests en modo EXAM o TIMED.
+            -- Las PRÁCTICAS (test_mode = 'PRACTICE') NO aplican al ranking.
+            SELECT COALESCE(SUM(tr.score), 0), COUNT(*)
               INTO v_trieds_score, v_trieds_count
-              FROM razonapro.trieds
-             WHERE student_id = p_student_id
-               AND program_id = p_program_id
-               AND status     = 'FINISHED'
-               AND score IS NOT NULL
-               AND (v_period_start IS NULL OR COALESCE(finished_at, attempt_timestamp)::DATE >= v_period_start)
-               AND (v_period_end   IS NULL OR COALESCE(finished_at, attempt_timestamp)::DATE <= v_period_end);
+              FROM razonapro.trieds tr
+              JOIN razonapro.tests  te
+                ON te.test_id = tr.test_id AND te.competence_id = tr.competence_id
+             WHERE tr.student_id = p_student_id
+               AND tr.program_id = p_program_id
+               AND tr.status     = 'FINISHED'
+               AND tr.score IS NOT NULL
+               AND te.test_mode IN ('EXAM','TIMED')
+               AND (v_period_start IS NULL OR COALESCE(tr.finished_at, tr.attempt_timestamp)::DATE >= v_period_start)
+               AND (v_period_end   IS NULL OR COALESCE(tr.finished_at, tr.attempt_timestamp)::DATE <= v_period_end);
         ELSE
             v_trieds_score := 0;  v_trieds_count := 0;
         END IF;

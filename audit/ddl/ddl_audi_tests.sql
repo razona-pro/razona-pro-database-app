@@ -4,7 +4,7 @@ CREATE TABLE razonapro.audi_tests (
     competence_id    VARCHAR(6)  NOT NULL,
     test_name        VARCHAR(50) NOT NULL,
     test_mode        VARCHAR(10) NOT NULL,
-    duration_seconds INTEGER     NOT NULL,
+    duration_seconds INTEGER,  -- nullable: PRACTICE puede no tener tiempo
     is_active        CHAR(1)     NOT NULL,
     registered_at    TIMESTAMP   NOT NULL,
     db_user          VARCHAR(50) NOT NULL,

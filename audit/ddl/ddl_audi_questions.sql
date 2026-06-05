@@ -2,7 +2,7 @@ CREATE TABLE razonapro.audi_questions (
     row_id           SERIAL     NOT NULL,
     competence_id    VARCHAR(6) NOT NULL,
     question_id      VARCHAR(7) NOT NULL,
-    difficulty_level CHAR(1)    NOT NULL,
+    difficulty_level CHAR(1),  -- nullable: dificultad opcional ("no aplica")
     is_active        CHAR(1)    NOT NULL,
     registered_at    TIMESTAMP  NOT NULL,
     db_user          VARCHAR(50) NOT NULL,

@@ -9,6 +9,7 @@ CREATE TABLE razonapro.trieds (
     time_spent_seconds  INTEGER,
     total_questions     INTEGER       NOT NULL,
     correct_answers     INTEGER       DEFAULT 0,
+    fraud_attempts      INTEGER       NOT NULL DEFAULT 0,  -- nº de eventos sospechosos (cambios de pestaña, etc.)
     attempt_timestamp   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at          TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMP,
@@ -18,7 +19,8 @@ CREATE TABLE razonapro.trieds (
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT FK_TRIEDS_TESTS           FOREIGN KEY (test_id, competence_id)
         REFERENCES razonapro.tests (test_id, competence_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT')),
+    CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO')),
+    CONSTRAINT CK_TRIEDS_FRAUD_ATTEMPTS  CHECK (fraud_attempts >= 0),
     CONSTRAINT CK_TRIEDS_SCORE           CHECK (score IS NULL OR (score >= 0 AND score <= 100)),
     CONSTRAINT CK_TRIEDS_TOTAL_QUESTIONS CHECK (total_questions > 0),
     CONSTRAINT CK_TRIEDS_CORRECT_ANSWERS CHECK (correct_answers IS NULL OR correct_answers >= 0),
