@@ -5,7 +5,7 @@ CREATE TABLE razonapro.admins (
     first_surname     VARCHAR(15)  NOT NULL,
     second_surname    VARCHAR(15),
     email             VARCHAR(50)  NOT NULL,
-    phone             VARCHAR(15)  NOT NULL,
+    phone             VARCHAR(15),  -- opcional: ya no se solicita al crear admins
     password_hash     VARCHAR(60)  NOT NULL,
     is_active         CHAR(1)      NOT NULL DEFAULT 'Y',
     last_login_at     TIMESTAMP,

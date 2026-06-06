@@ -21,7 +21,8 @@ CREATE TABLE razonapro.trieds (
         REFERENCES razonapro.tests (test_id, competence_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO')),
     CONSTRAINT CK_TRIEDS_FRAUD_ATTEMPTS  CHECK (fraud_attempts >= 0),
-    CONSTRAINT CK_TRIEDS_SCORE           CHECK (score IS NULL OR (score >= 0 AND score <= 100)),
+    -- El score ahora es puntos crudos ponderados por dificultad (no sobre 100); solo se exige no-negativo.
+    CONSTRAINT CK_TRIEDS_SCORE           CHECK (score IS NULL OR score >= 0),
     CONSTRAINT CK_TRIEDS_TOTAL_QUESTIONS CHECK (total_questions > 0),
     CONSTRAINT CK_TRIEDS_CORRECT_ANSWERS CHECK (correct_answers IS NULL OR correct_answers >= 0),
     CONSTRAINT CK_TRIEDS_CORRECT_LE_TOTAL CHECK (correct_answers IS NULL OR correct_answers <= total_questions),
