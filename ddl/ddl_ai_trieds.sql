@@ -13,6 +13,10 @@ CREATE TABLE razonapro.ai_trieds (
     competence_id       VARCHAR(6),
     theta               NUMERIC(5,3) DEFAULT 0.0,
     fraud_attempts      INTEGER      NOT NULL DEFAULT 0,
+    -- Métricas para mostrar el progreso de la sesión (incl. intentos abandonados):
+    questions_generated INTEGER      NOT NULL DEFAULT 0,  -- nº de preguntas que la IA generó
+    answered_questions  INTEGER      NOT NULL DEFAULT 0,  -- nº de preguntas respondidas
+    max_possible_score  INTEGER      NOT NULL DEFAULT 0,  -- suma de niveles de las preguntas generadas (puntaje máximo posible)
     CONSTRAINT PK_AI_TRIEDS                    PRIMARY KEY (program_id, student_id, ai_tried_id),
     CONSTRAINT FK_AI_TRIEDS_STUDENTS           FOREIGN KEY (student_id, program_id)
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,

@@ -12,8 +12,11 @@ CREATE TABLE razonapro.tests_questions (
     created_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMP,
     CONSTRAINT PK_TESTS_QUESTIONS          PRIMARY KEY (test_question_id),
-    CONSTRAINT FK_TESTS_QUESTIONS_TESTS    FOREIGN KEY (test_id, competence_id)
-        REFERENCES razonapro.tests (test_id, competence_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    -- Multi-competencia: una prueba (test_id) puede agrupar preguntas de DISTINTAS competencias.
+    -- Por eso la FK al test es solo por test_id (no por competencia). competence_id = competencia
+    -- de la PREGUNTA (lo asegura la FK a questions).
+    CONSTRAINT FK_TESTS_QUESTIONS_TESTS    FOREIGN KEY (test_id)
+        REFERENCES razonapro.tests (test_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT FK_TESTS_QUESTIONS_QUESTIONS FOREIGN KEY (competence_id, question_id)
         REFERENCES razonapro.questions (competence_id, question_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT FK_TESTS_QUESTIONS_ADMINS   FOREIGN KEY (admin_id)

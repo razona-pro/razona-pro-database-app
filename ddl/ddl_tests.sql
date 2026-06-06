@@ -1,5 +1,4 @@
 CREATE TABLE razonapro.tests (
-    competence_id        VARCHAR(6)  NOT NULL,
     test_id              VARCHAR(8)  NOT NULL,
     admin_id             VARCHAR(6)  NOT NULL,
     test_name            VARCHAR(50) NOT NULL,
@@ -10,11 +9,11 @@ CREATE TABLE razonapro.tests (
     test_mode            VARCHAR(10) NOT NULL,
     created_at           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at           TIMESTAMP,
-    CONSTRAINT PK_TESTS                       PRIMARY KEY (test_id, competence_id),
+    -- MULTICOMPETENCIA: la prueba se identifica solo por test_id. Sus competencias
+    -- son las de sus preguntas (tabla tests_questions). No tiene competencia propia.
+    CONSTRAINT PK_TESTS                       PRIMARY KEY (test_id),
     CONSTRAINT FK_TESTS_ADMINS                FOREIGN KEY (admin_id)
         REFERENCES razonapro.admins (admin_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT FK_TESTS_COMPETENCES           FOREIGN KEY (competence_id)
-        REFERENCES razonapro.competences (competence_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT CK_TESTS_IS_ACTIVE             CHECK (is_active IN ('Y','N')),
     CONSTRAINT CK_TESTS_MODE                  CHECK (test_mode IN ('PRACTICE','EXAM','TIMED')),
     CONSTRAINT CK_TESTS_DURATION_POSITIVE     CHECK (duration_seconds IS NULL OR duration_seconds > 0),

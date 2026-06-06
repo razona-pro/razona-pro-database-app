@@ -4,6 +4,7 @@ CREATE TABLE razonapro.rankings (
     description   VARCHAR(100),
     period_type   VARCHAR(10)  NOT NULL,
     source_filter VARCHAR(10)  NOT NULL,
+    competence_id VARCHAR(6),
     is_active     CHAR(1)      NOT NULL DEFAULT 'Y',
     created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at    TIMESTAMP,

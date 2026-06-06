@@ -1,7 +1,6 @@
 CREATE TABLE razonapro.trieds (
     program_id          VARCHAR(3)    NOT NULL,
     student_id          VARCHAR(7)    NOT NULL,
-    competence_id       VARCHAR(6)    NOT NULL,
     test_id             VARCHAR(8)    NOT NULL,
     tried_id            VARCHAR(10)   NOT NULL,
     status              VARCHAR(15)   NOT NULL DEFAULT 'IN_PROGRESS',
@@ -14,11 +13,12 @@ CREATE TABLE razonapro.trieds (
     created_at          TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMP,
     finished_at         TIMESTAMP,
-    CONSTRAINT PK_TRIEDS                 PRIMARY KEY (competence_id, test_id, program_id, student_id, tried_id),
+    -- MULTICOMPETENCIA: el intento es de una PRUEBA (test_id), no de una competencia.
+    CONSTRAINT PK_TRIEDS                 PRIMARY KEY (test_id, program_id, student_id, tried_id),
     CONSTRAINT FK_TRIEDS_STUDENTS        FOREIGN KEY (student_id, program_id)
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT FK_TRIEDS_TESTS           FOREIGN KEY (test_id, competence_id)
-        REFERENCES razonapro.tests (test_id, competence_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT FK_TRIEDS_TESTS           FOREIGN KEY (test_id)
+        REFERENCES razonapro.tests (test_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO')),
     CONSTRAINT CK_TRIEDS_FRAUD_ATTEMPTS  CHECK (fraud_attempts >= 0),
     -- El score ahora es puntos crudos ponderados por dificultad (no sobre 100); solo se exige no-negativo.
