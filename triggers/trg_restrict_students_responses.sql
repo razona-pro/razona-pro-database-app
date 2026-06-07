@@ -11,11 +11,10 @@ BEGIN
     ELSIF TG_OP = 'UPDATE' THEN
         SELECT status INTO v_status
           FROM razonapro.trieds
-         WHERE competence_id = OLD.competence_id
-           AND test_id       = OLD.test_id
-           AND program_id    = OLD.program_id
-           AND student_id    = OLD.student_id
-           AND tried_id      = OLD.tried_id;
+         WHERE test_id    = OLD.test_id
+           AND program_id = OLD.program_id
+           AND student_id = OLD.student_id
+           AND tried_id   = OLD.tried_id;
 
         IF v_status <> 'IN_PROGRESS' THEN
             RAISE EXCEPTION
@@ -41,3 +40,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_restrict_students_responses
+    BEFORE UPDATE OR DELETE ON razonapro.students_responses
+    FOR EACH ROW EXECUTE FUNCTION razonapro.fn_restrict_students_responses();

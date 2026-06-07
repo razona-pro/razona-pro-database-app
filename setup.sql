@@ -13,6 +13,7 @@ CREATE SCHEMA razonapro;
 \i ddl/ddl_programs.sql
 \i ddl/ddl_competences.sql
 \i ddl/ddl_rankings.sql
+\i ddl/ddl_rankings_competences.sql   -- competencias por ranking (multi-competencia); depende de rankings y competences
 \i ddl/ddl_students.sql
 \i ddl/ddl_questions.sql
 \i ddl/ddl_options.sql
@@ -27,6 +28,7 @@ CREATE SCHEMA razonapro;
 \i ddl/ddl_notifications.sql         -- NUEVO (independiente)
 \i ddl/ddl_question_doubts.sql
 \i ddl/ddl_rankings_students.sql     -- incluye seq_ranking_student_id
+\i ddl/ddl_appeals.sql               -- apelaciones de cuentas desactivadas (depende de students y admins)
 \i ddl/ddl_tokens.sql
 
 -- ── 2. Tablas de auditoría ────────────────────────────────────────

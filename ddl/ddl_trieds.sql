@@ -19,7 +19,7 @@ CREATE TABLE razonapro.trieds (
         REFERENCES razonapro.students (student_id, program_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT FK_TRIEDS_TESTS           FOREIGN KEY (test_id)
         REFERENCES razonapro.tests (test_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO')),
+    CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO','PLAGIO')),
     CONSTRAINT CK_TRIEDS_FRAUD_ATTEMPTS  CHECK (fraud_attempts >= 0),
     -- El score ahora es puntos crudos ponderados por dificultad (no sobre 100); solo se exige no-negativo.
     CONSTRAINT CK_TRIEDS_SCORE           CHECK (score IS NULL OR score >= 0),

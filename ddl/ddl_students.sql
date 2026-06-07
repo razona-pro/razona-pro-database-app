@@ -9,6 +9,7 @@ CREATE TABLE razonapro.students (
     phone              VARCHAR(15)  NOT NULL,
     password_hash      VARCHAR(60)  NOT NULL,
     is_active          CHAR(1)      NOT NULL DEFAULT 'Y',
+    deactivation_reason VARCHAR(10),   -- FRAUD | MANUAL | NULL (cuenta activa)
     email_verified     CHAR(1)      NOT NULL DEFAULT 'N',
     identity_verified  CHAR(1)      NOT NULL DEFAULT 'N',
     created_at         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -23,6 +24,7 @@ CREATE TABLE razonapro.students (
     CONSTRAINT CK_STUDENTS_ID_FMT              CHECK (student_id ~ '^[0-9]{7}$'),
     CONSTRAINT CK_STUDENTS_ID_PROGRAM          CHECK (LEFT(student_id, 3) = program_id),
     CONSTRAINT CK_STUDENTS_IS_ACTIVE           CHECK (is_active IN ('Y','N')),
+    CONSTRAINT CK_STUDENTS_DEACT_REASON        CHECK (deactivation_reason IS NULL OR deactivation_reason IN ('FRAUD','MANUAL')),
     CONSTRAINT CK_STUDENTS_EMAIL_VERIFIED      CHECK (email_verified IN ('Y','N')),
     CONSTRAINT CK_STUDENTS_IDENTITY_VERIFIED   CHECK (identity_verified IN ('Y','N')),
     CONSTRAINT CK_STUDENTS_EMAIL_FMT           CHECK (email = LOWER(email) AND email NOT LIKE '%..%'

@@ -11,6 +11,7 @@ CREATE TABLE razonapro.ai_trieds (
     attempt_timestamp   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description         VARCHAR(200),
     competence_id       VARCHAR(6),
+    competence_ids      VARCHAR(80),   -- multi-competencia: competencias de la sesión separadas por coma
     theta               NUMERIC(5,3) DEFAULT 0.0,
     fraud_attempts      INTEGER      NOT NULL DEFAULT 0,
     -- Métricas para mostrar el progreso de la sesión (incl. intentos abandonados):
