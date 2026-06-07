@@ -9,6 +9,7 @@ CREATE TABLE razonapro.trieds (
     total_questions     INTEGER       NOT NULL,
     correct_answers     INTEGER       DEFAULT 0,
     fraud_attempts      INTEGER       NOT NULL DEFAULT 0,  -- nº de eventos sospechosos (cambios de pestaña, etc.)
+    review_viewed       CHAR(1)       NOT NULL DEFAULT 'N', -- retroalimentación de un solo uso (Y tras verla)
     attempt_timestamp   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at          TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          TIMESTAMP,
@@ -21,6 +22,7 @@ CREATE TABLE razonapro.trieds (
         REFERENCES razonapro.tests (test_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT CK_TRIEDS_STATUS          CHECK (status IN ('IN_PROGRESS','FINISHED','ABANDONED','TIMED_OUT','ANULADO','PLAGIO')),
     CONSTRAINT CK_TRIEDS_FRAUD_ATTEMPTS  CHECK (fraud_attempts >= 0),
+    CONSTRAINT CK_TRIEDS_REVIEW_VIEWED   CHECK (review_viewed IN ('Y','N')),
     -- El score ahora es puntos crudos ponderados por dificultad (no sobre 100); solo se exige no-negativo.
     CONSTRAINT CK_TRIEDS_SCORE           CHECK (score IS NULL OR score >= 0),
     CONSTRAINT CK_TRIEDS_TOTAL_QUESTIONS CHECK (total_questions > 0),
