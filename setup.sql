@@ -50,10 +50,10 @@ CREATE INDEX idx_competences_active  ON razonapro.competences (is_active);
 
 -- ── 4. Triggers de negocio ────────────────────────────────────────
 \i triggers/trg_updated_at.sql
--- trg_calculate_scores, trg_correct_answers y trg_rankings ELIMINADOS: el cálculo de
--- score, correct_answers y rankings se centraliza en el backend Java. Así finalizar un
--- intento NO depende de funciones PL/pgSQL (evita el error "no existe fn_refresh_student_ranking").
+-- score y correct_answers se calculan en el backend Java; los RANKINGS se actualizan
+-- por trigger al pasar un tried/ai_tried a FINISHED (trg_rankings.sql).
 \i triggers/trg_restrict_students_responses.sql
+\i triggers/trg_rankings.sql
 
 -- ── 5. Triggers de auditoría ──────────────────────────────────────
 \i audit/triggers/trg_audi_admins.sql

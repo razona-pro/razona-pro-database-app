@@ -17,8 +17,9 @@ CREATE TABLE razonapro.tests (
     CONSTRAINT CK_TESTS_IS_ACTIVE             CHECK (is_active IN ('Y','N')),
     CONSTRAINT CK_TESTS_MODE                  CHECK (test_mode IN ('PRACTICE','EXAM','TIMED')),
     CONSTRAINT CK_TESTS_DURATION_POSITIVE     CHECK (duration_seconds IS NULL OR duration_seconds > 0),
-    -- PRACTICE puede no tener tiempo; EXAM y TIMED siempre requieren duración
-    CONSTRAINT CK_TESTS_DURATION_REQUIRED     CHECK (test_mode = 'PRACTICE' OR duration_seconds IS NOT NULL),
+    -- Solo EXAM requiere duración total. PRACTICE no tiene tiempo; TIMED lo maneja
+    -- POR PREGUNTA (según dificultad), así que su duración total es NULL.
+    CONSTRAINT CK_TESTS_DURATION_REQUIRED     CHECK (test_mode <> 'EXAM' OR duration_seconds IS NOT NULL),
     CONSTRAINT CK_TESTS_QUESTIONS_TO_PRESENT  CHECK (questions_to_present IS NULL OR questions_to_present > 0),
     CONSTRAINT CK_TESTS_NAME_NOTEMPTY         CHECK (LENGTH(TRIM(test_name)) > 0),
     CONSTRAINT CK_TESTS_DESC_NOTEMPTY         CHECK (description IS NULL OR LENGTH(TRIM(description)) > 0),
